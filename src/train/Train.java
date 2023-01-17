@@ -47,7 +47,7 @@ public class Train {
 		Element eltActuel = this.pos.getElt();
 		Railway r = eltActuel.getRailway();
 		Position newPos = r.nextStop(this.pos);
-		System.out.println(newPos);
+		this.pos= newPos;
 		System.out.println("le train est maintenant en position:"+this.pos);
 		
 	}

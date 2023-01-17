@@ -42,11 +42,11 @@ public class Position implements Cloneable {
 	}
 
 	public Element getElt() {
-		return elt;
+		return this.elt;
 	}
 	
 	public Direction getDir() {
-		return direction;
+		return this.direction;
 	}
 	
 	@Override
