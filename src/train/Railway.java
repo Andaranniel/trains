@@ -55,6 +55,24 @@ public class Railway {
 		
 	}
 	
+	public synchronized void stopInterblocage(Position p) throws InterruptedException{
+		/** Une méthode pour éviter les interblocages: au moment où un train quitte une gare,
+		 * on vérifie qu'il n'y a pas déjà un train qui voyage en sens inverse sur le railway
+		 * afin qu'ils ne se rencontrent pas au milieu.
+		 * cette méthode prend en argument la position actuelle du train
+		 */
+		
+		boolean var = true;
+		for (Element e : elements) { //on parcourt les éléments du railway
+			if(!e.equals(p.getElt())) { //on ne s'intéresse pas à l'élément actuel de la position du train
+				
+					
+					
+				}
+			}
+	}
+
+	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();

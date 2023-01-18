@@ -13,6 +13,12 @@ public class Section extends Element {
 		super(name);
 		this.size = 1;
 	}
+
+	@Override
+	protected int getSize() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
 	
 	
 }

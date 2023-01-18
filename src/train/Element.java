@@ -16,8 +16,8 @@ package train;
 public abstract class Element {
 	private final String name;
 	protected Railway railway;
-	public int countTrain;
-	public int size;
+	public int countTrain; //le nombre de trains dans l'élément actuellement
+	public int size; //le nombre max de trains que peut contenir l'élement
 
 	protected Element(String name) {
 		if(name == null)
@@ -27,10 +27,12 @@ public abstract class Element {
 	}
 	
 	public int getCount() {
+		/** une méthode pour obtenir le nombre de trains actuellement dans l'élément **/
 		return this.countTrain;
 	}
 	
 	public void setCount(int i) {
+		/** une méthode pour modifier le nombre de trains actuellement dans l'élément **/
 		this.countTrain = i;
 	}
 	
@@ -59,6 +61,7 @@ public abstract class Element {
 	}
 	
 	public synchronized void enter() throws InterruptedException {
+		/** une méthode qui détermine si un train peut entrer dans l'élément **/
 		while(!(this.countTrain <size)) {
 			System.out.println("pas la place d'avancer");
 			wait() ;}
@@ -66,6 +69,7 @@ public abstract class Element {
 	}
 	
 	public synchronized void leave() {
+		/** une méthode pour mettre à jour le nombre de trains lorsqu'un train quitte l'élément **/
 		this.countTrain = this.countTrain -1;
 		notifyAll();
 	}
@@ -74,5 +78,10 @@ public abstract class Element {
 	public String toString() {
 		return this.name;
 	}
+
+	protected abstract int getSize();
+	/** méthode abstraite pour obtenir le nombre de trains max que peut contenir l'élément. Cela
+	 * dépend du type d'élément
+	 **/
 	
 }

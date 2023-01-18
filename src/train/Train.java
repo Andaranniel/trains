@@ -44,12 +44,21 @@ public class Train implements Runnable{
 	}
 	
 	public void move() throws InterruptedException {
+		/** une méthode permettant à un train d'avancer d'un cran sur un railway **/
 		Element eltActuel = this.pos.getElt();
-		Railway r = eltActuel.getRailway();
-		Position newPos = r.nextStop(this.pos);
-		newPos.getElt().enter();
-		this.pos= newPos;
-		eltActuel.leave();
+		Railway r = eltActuel.getRailway(); 
+		
+		Position newPos = r.nextStop(this.pos); //on détermine la prochaine étape sur le railway
+		
+		newPos.getElt().enter(); //on demande à entrer dans la prochaine étape
+		
+		//si ce n'est pas possible, la méthode enter met le thread en wait(). 
+		//si ça l'est, la méthode enter fait les modifications nécessaires au niveau des section et on passe à la suite
+		
+		this.pos= newPos; //on met à jour la position
+		
+		eltActuel.leave(); //on quitte formellement l'étape précédente
+		
 		System.out.println("le train" + this.name + " est maintenant en position:"+this.pos);
 		
 	}
@@ -59,7 +68,7 @@ public class Train implements Runnable{
 		// TODO Auto-generated method stub
 		do {
 			try {
-				move();
+				move(); //le train essaye d'avancer tant que cela lui est possible
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
