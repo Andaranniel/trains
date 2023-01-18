@@ -10,6 +10,11 @@ package train;
  */
 public class Station extends Element {
 	private final int size;
+	
+	//pour debug
+	public int getSize() {
+		return this.size;
+	}
 
 	public Station(String name, int size) {
 		super(name);

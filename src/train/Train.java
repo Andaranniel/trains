@@ -43,11 +43,13 @@ public class Train implements Runnable{
 		return result.toString();
 	}
 	
-	public void move() {
+	public void move() throws InterruptedException {
 		Element eltActuel = this.pos.getElt();
 		Railway r = eltActuel.getRailway();
 		Position newPos = r.nextStop(this.pos);
+		newPos.getElt().enter();
 		this.pos= newPos;
+		eltActuel.leave();
 		System.out.println("le train" + this.name + " est maintenant en position:"+this.pos);
 		
 	}
@@ -56,9 +58,13 @@ public class Train implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		do {
-			//conditions
-			move();
-		}while(true);
+			try {
+				move();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} while(true);
 		
 	}
 }

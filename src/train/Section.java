@@ -8,13 +8,10 @@ package train;
  * @author Philippe Tanguy <philippe.tanguy@imt-atlantique.fr>
  */
 public class Section extends Element {
+	
 	public Section(String name) {
 		super(name);
-	}
-	
-	public synchronized boolean checkMove() {
-		return false;
-		
+		this.size = 1;
 	}
 	
 	

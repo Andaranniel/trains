@@ -16,12 +16,22 @@ package train;
 public abstract class Element {
 	private final String name;
 	protected Railway railway;
+	public int countTrain;
+	public int size;
 
 	protected Element(String name) {
 		if(name == null)
 			throw new NullPointerException();
 		
 		this.name = name;
+	}
+	
+	public int getCount() {
+		return this.countTrain;
+	}
+	
+	public void setCount(int i) {
+		this.countTrain = i;
 	}
 	
 	public boolean equals(Object o) {
@@ -46,6 +56,18 @@ public abstract class Element {
 	public Railway getRailway() {
 		return railway;
 		
+	}
+	
+	public synchronized void enter() throws InterruptedException {
+		while(!(this.countTrain <size)) {
+			System.out.println("pas la place d'avancer");
+			wait() ;}
+			this.countTrain++;
+	}
+	
+	public synchronized void leave() {
+		this.countTrain = this.countTrain -1;
+		notifyAll();
 	}
 
 	@Override

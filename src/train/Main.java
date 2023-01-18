@@ -22,12 +22,13 @@ public class Main {
 			System.out.println(t1);
 			System.out.println(t2);
 			System.out.println(t3);
+			System.out.println(D.getSize());
 			Thread th1 = new Thread(t1);
 			th1.start();
 			Thread th2 = new Thread(t2);
 			th2.start();
 			Thread th3 = new Thread(t3);
-			
+			th3.start();
 		} catch (BadPositionForTrainException e) {
 			System.out.println("Le train " + e.getMessage());
 		}
