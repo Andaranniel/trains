@@ -49,6 +49,7 @@ public class Train implements Runnable{
 		Railway r = eltActuel.getRailway(); 
 		
 		if(eltActuel instanceof Station) {
+			//si le train s'apprête à quitter une gare, on vérifie qu'il n'y a pas risque d'interblocage
 			r.stopInterblocage(this.pos);
 		}
 		
@@ -60,9 +61,9 @@ public class Train implements Runnable{
 		//si ce n'est pas possible, la méthode enter met le thread en wait(). 
 		//si ça l'est, la méthode enter fait les modifications nécessaires au niveau des section et on passe à la suite
 		
-		this.pos= newPos; //on met à jour la position
-		
 		eltActuel.leave(this.pos.getDir()); //on quitte formellement l'étape précédente
+		
+		this.pos= newPos; //on met à jour la position
 		
 		System.out.println("le train" + this.name + " est maintenant en position:"+this.pos);
 		
@@ -70,7 +71,6 @@ public class Train implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		do {
 			try {
 				move(); //le train essaye d'avancer tant que cela lui est possible
