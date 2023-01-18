@@ -23,11 +23,15 @@ public class Main {
 			System.out.println(t2);
 			System.out.println(t3);
 			System.out.println(D.getSize());
+			
+			//Création des threads
 			Thread th1 = new Thread(t1);
-			th1.start();
 			Thread th2 = new Thread(t2);
-			th2.start();
 			Thread th3 = new Thread(t3);
+			
+			//Lancement des threads
+			th1.start();
+			th2.start();
 			th3.start();
 		} catch (BadPositionForTrainException e) {
 			System.out.println("Le train " + e.getMessage());
