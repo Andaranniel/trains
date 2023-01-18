@@ -48,16 +48,21 @@ public class Train implements Runnable{
 		Element eltActuel = this.pos.getElt();
 		Railway r = eltActuel.getRailway(); 
 		
+		if(eltActuel instanceof Station) {
+			r.stopInterblocage(this.pos);
+		}
+		
 		Position newPos = r.nextStop(this.pos); //on détermine la prochaine étape sur le railway
 		
-		newPos.getElt().enter(); //on demande à entrer dans la prochaine étape
+		
+		newPos.getElt().enter(this.pos.getDir()); //on demande à entrer dans la prochaine étape
 		
 		//si ce n'est pas possible, la méthode enter met le thread en wait(). 
 		//si ça l'est, la méthode enter fait les modifications nécessaires au niveau des section et on passe à la suite
 		
 		this.pos= newPos; //on met à jour la position
 		
-		eltActuel.leave(); //on quitte formellement l'étape précédente
+		eltActuel.leave(this.pos.getDir()); //on quitte formellement l'étape précédente
 		
 		System.out.println("le train" + this.name + " est maintenant en position:"+this.pos);
 		

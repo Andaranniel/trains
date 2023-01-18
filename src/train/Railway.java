@@ -62,10 +62,21 @@ public class Railway {
 		 * cette méthode prend en argument la position actuelle du train
 		 */
 		
-		boolean var = true;
 		for (Element e : elements) { //on parcourt les éléments du railway
 			if(!e.equals(p.getElt())) { //on ne s'intéresse pas à l'élément actuel de la position du train
-				
+				if(p.toString().equals("from left to right")) {
+					if(e.getCountRL() !=0) {
+						System.out.println("risque d'interblocage, le train ne part pas");
+						wait();
+					}
+				}
+				if(p.toString().equals("from right to left")) {
+					if(e.getCountLR() !=0) {
+						System.out.println("risque d'interblocage, le train ne part pas");
+						wait();
+					}
+					
+				}
 					
 					
 				}

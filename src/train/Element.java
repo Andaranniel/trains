@@ -16,7 +16,8 @@ package train;
 public abstract class Element {
 	private final String name;
 	protected Railway railway;
-	public int countTrain; //le nombre de trains dans l'élément actuellement
+	public int countTrainRL; //le nombre de trains dans l'élément actuellement
+	public int countTrainLR; 
 	public int size; //le nombre max de trains que peut contenir l'élement
 
 	protected Element(String name) {
@@ -26,15 +27,26 @@ public abstract class Element {
 		this.name = name;
 	}
 	
-	public int getCount() {
-		/** une méthode pour obtenir le nombre de trains actuellement dans l'élément **/
-		return this.countTrain;
+	public int getCountLR() {
+		/** une méthode pour obtenir le nombre de trains LR actuellement dans l'élément **/
+		return this.countTrainLR;
 	}
 	
-	public void setCount(int i) {
-		/** une méthode pour modifier le nombre de trains actuellement dans l'élément **/
-		this.countTrain = i;
+	public int getCountRL() {
+		/** une méthode pour obtenir le nombre de trains RL actuellement dans l'élément **/
+		return this.countTrainRL;
 	}
+	
+	public void setCountRL(int i) {
+		/** une méthode pour modifier le nombre de trains RL actuellement dans l'élément **/
+		this.countTrainRL = i;
+	}
+	
+	public void setCountLR(int i) {
+		/** une méthode pour modifier le nombre de trains LR actuellement dans l'élément **/
+		this.countTrainLR = i;
+	}
+	
 	
 	public boolean equals(Object o) {
 		if(o instanceof Element) {
@@ -60,17 +72,27 @@ public abstract class Element {
 		
 	}
 	
-	public synchronized void enter() throws InterruptedException {
+	public synchronized void enter(Direction d) throws InterruptedException {
 		/** une méthode qui détermine si un train peut entrer dans l'élément **/
-		while(!(this.countTrain <size)) {
+		while(!((this.countTrainLR+this.countTrainRL) <size)) {
 			System.out.println("pas la place d'avancer");
 			wait() ;}
-			this.countTrain++;
+			if(d.toString().equals("from left to right")) {
+				this.countTrainLR++;
+			}
+			if(d.toString().equals("from right to left")) {
+				this.countTrainRL++;
+			}
 	}
 	
-	public synchronized void leave() {
+	public synchronized void leave(Direction d) {
 		/** une méthode pour mettre à jour le nombre de trains lorsqu'un train quitte l'élément **/
-		this.countTrain = this.countTrain -1;
+		if(d.toString().equals("from left to right")) {
+			this.countTrainLR = this.countTrainLR -1;
+		}
+		if(d.toString().equals("from right to left")) {
+			this.countTrainRL = this.countTrainRL -1;
+		}
 		notifyAll();
 	}
 
