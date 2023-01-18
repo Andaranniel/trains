@@ -11,4 +11,11 @@ public class Section extends Element {
 	public Section(String name) {
 		super(name);
 	}
+	
+	public synchronized boolean checkMove() {
+		return false;
+		
+	}
+	
+	
 }

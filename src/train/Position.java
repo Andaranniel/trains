@@ -49,6 +49,7 @@ public class Position implements Cloneable {
 		return this.direction;
 	}
 	
+	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder(this.elt.toString());

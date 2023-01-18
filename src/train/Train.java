@@ -43,7 +43,7 @@ public class Train implements Runnable{
 		return result.toString();
 	}
 	
-	public synchronized void move() {
+	public void move() {
 		Element eltActuel = this.pos.getElt();
 		Railway r = eltActuel.getRailway();
 		Position newPos = r.nextStop(this.pos);
@@ -56,6 +56,7 @@ public class Train implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		do {
+			//conditions
 			move();
 		}while(true);
 		
