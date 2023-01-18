@@ -17,7 +17,7 @@ package train;
  * @author Philippe Tanguy <philippe.tanguy@imt-atlantique.fr>
  * @version 0.3
  */
-public class Train {
+public class Train implements Runnable{
 	private final String name;
 	private Position pos;
 
@@ -43,12 +43,21 @@ public class Train {
 		return result.toString();
 	}
 	
-	public void move() {
+	public synchronized void move() {
 		Element eltActuel = this.pos.getElt();
 		Railway r = eltActuel.getRailway();
 		Position newPos = r.nextStop(this.pos);
 		this.pos= newPos;
-		System.out.println("le train est maintenant en position:"+this.pos);
+		System.out.println("le train" + this.name + " est maintenant en position:"+this.pos);
+		
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		do {
+			move();
+		}while(true);
 		
 	}
 }
