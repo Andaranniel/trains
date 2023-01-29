@@ -48,15 +48,16 @@ public class Train implements Runnable{
 		Element eltActuel = this.pos.getElt();
 		Railway r = eltActuel.getRailway(); 
 		
+		/*
 		if(eltActuel instanceof Station) {
 			//si le train s'apprête à quitter une gare, on vérifie qu'il n'y a pas risque d'interblocage
 			r.stopInterblocage(this.pos);
 		}
-		
+		*/
 		Position newPos = r.nextStop(this.pos); //on détermine la prochaine étape sur le railway
 		
 		
-		newPos.getElt().enter(this.pos.getDir()); //on demande à entrer dans la prochaine étape
+		newPos.getElt().enter(this.pos,r,this); //on demande à entrer dans la prochaine étape
 		
 		//si ce n'est pas possible, la méthode enter met le thread en wait(). 
 		//si ça l'est, la méthode enter fait les modifications nécessaires au niveau des section et on passe à la suite
@@ -74,8 +75,11 @@ public class Train implements Runnable{
 		do {
 			try {
 				move(); //le train essaye d'avancer tant que cela lui est possible
+				Thread.sleep(1000);
+				System.out.println("");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
+				System.out.println("Erreur" + e);
 				e.printStackTrace();
 			}
 		} while(true);

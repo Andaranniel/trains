@@ -32,6 +32,8 @@ public class Railway {
 		/** Une méthode pour déterminer la prochaine étape sur le railway à partir de la position actuelle d'un train **/
 		Element elt = pos.getElt();
 		Direction dir = pos.getDir();
+		
+		
 		for(int i=0; i < elements.length; i++) { //on parcourt les éléments du railway
 			if(elements[i].equals(elt)) {
 				
@@ -57,24 +59,26 @@ public class Railway {
 		
 	}
 	
-	public synchronized void stopInterblocage(Position p) throws InterruptedException{
+	public synchronized boolean stopInterblocage(Position p) throws InterruptedException{
 		/** Une méthode pour éviter les interblocages: au moment où un train quitte une gare,
 		 * on vérifie qu'il n'y a pas déjà un train qui voyage en sens inverse sur le railway
 		 * afin qu'ils ne se rencontrent pas au milieu.
 		 * cette méthode prend en argument la position actuelle du train
 		 */
 		for (Element e : elements) { //on parcourt les éléments du railway
-			if(!e.equals(p.getElt())) { //on ne s'intéresse pas à l'élément actuel de la position du train
-				if(p.toString().equals("from left to right")) {
-					if(e.getCountRL() >0) { //on ne veut pas de train déjà en train de voyager en sens inverse
-						System.out.println("risque d'interblocage, le train ne part pas");
-						wait();
+			if(!e.equals(p.getElt()) && !(e instanceof Station)) { //on ne s'intéresse pas à l'élément actuel de la position du train
+				if(p.getDir().toString().equals("from left to right")) {
+					//System.out.println("Element : " + p + "a " + e.getCountRL() + "train allant de r a l" );
+					if(e.getCountRL() > 0) { //on ne veut pas de train déjà en train de voyager en sens inverse
+						//System.out.println("risque d'interblocage, le train ne part pas");
+						return true;
 					}
 				}
-				if(p.toString().equals("from right to left")) {
+				if(p.getDir().toString().equals("from right to left")) {
+					//System.out.println("Element : " + p + "a " + e.getCountLR() + "train allant de l a r" );
 					if(e.getCountLR()>0) {
-						System.out.println("risque d'interblocage, le train ne part pas");
-						wait();
+						//System.out.println("risque d'interblocage, le train ne part pas");
+						return true;
 					}
 					
 				}
@@ -82,9 +86,10 @@ public class Railway {
 					
 				}
 			else {
-				System.out.println("pas de risque d'interblocage, le train peut quitter la gare");
+				//System.out.println("pas de risque d'interblocage, le train peut quitter la gare");
 			}
 			}
+		return false;
 	}
 
 	

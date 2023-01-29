@@ -30,8 +30,11 @@ public class Main {
 			Thread th3 = new Thread(t3);
 			
 			//Lancement des threads
+			System.out.println("\n\n\n lancement train 1 \n\n\n");
 			th1.start();
+			System.out.println("\n\n\n lancement train 2 \n\n\n");
 			th2.start();
+			System.out.println("\n\n\n lancement train 3 \n\n\n");
 			th3.start();
 		} catch (BadPositionForTrainException e) {
 			System.out.println("Le train " + e.getMessage());

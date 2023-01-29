@@ -72,11 +72,11 @@ public abstract class Element {
 		
 	}
 	
-	public synchronized void enter(Direction d) throws InterruptedException {
+	public synchronized void enter(Position pos, Railway r, Train t) throws InterruptedException {
 		/** une méthode qui détermine si un train peut entrer dans l'élément **/
-		
-		while(!((this.countTrainLR+this.countTrainRL) <this.getSize())) {
-			System.out.println("pas la place d'avancer");
+		Direction d = pos.getDir();
+		while(!((this.countTrainLR+this.countTrainRL) <this.getSize()) || r.stopInterblocage(pos)) {
+			//System.out.println("pas la place d'avancer");
 			wait() ;}
 			if(d.toString().equals("from left to right")) {
 				this.countTrainLR++;
