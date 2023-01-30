@@ -19,7 +19,17 @@ public class Railway {
 		for (Element e : elements)
 			e.setRailway(this);
 	}
-	
+	/*
+	 * Méthode qui retourne une position (même element mais direction opposé)
+	 * 
+	 * @param pos Position initiale
+	 * 
+	 * @return Une nouvelle position dont la direction est opposé
+	 * 
+	 * @author BLEVIN Sarah
+	 * @author COURSODON Liam
+	 * 
+	 */
 	public Position seRetourner(Position pos) {
 		Direction dir = pos.getDir();
 		if(dir.toString()=="from left to right") {
@@ -28,8 +38,19 @@ public class Railway {
 		return new Position(pos.getElt(), Direction.LR);
 	}
 	
-	public Position nextStop(Position pos) { //amélioration: erreur elt pas ds le railway
-		/** Une méthode pour déterminer la prochaine étape sur le railway à partir de la position actuelle d'un train **/
+	/*
+	 * Méthode qui calcule une nouvelle position pour un train qui avance d'un cran sur le railway 
+	 * 
+	 * @param pos Position initiale
+	 * 
+	 * @return Une nouvelle position un cran plus loin
+	 * 
+	 * @author BLEVIN Sarah
+	 * @author COURSODON Liam
+	 * 
+	 * Amelioration possible : erreur si pos ne contient pas d'element du railway
+	 */
+	public Position nextStop(Position pos) {
 		Element elt = pos.getElt();
 		Direction dir = pos.getDir();
 		
@@ -38,7 +59,7 @@ public class Railway {
 			if(elements[i].equals(elt)) {
 				
 				if(dir.toString()=="from left to right") {
-					if(i+1<elements.length) { //amélioration: peut-être une méthode qui détermine si on est ds une gare
+					if(i+1<elements.length) {
 						//si on peut encore avancer dans la même direction, on le fait
 						return new Position(elements[i+1],dir);
 					}
@@ -53,31 +74,39 @@ public class Railway {
 				}
 			}
 		}
-		System.out.println(elements[0]);
-		System.out.println(elements[0].equals(elt));
 		return null;
 		
 	}
 	
+	/*
+	 * Méthode qui détermine si il y a un risque d'interblocage lors du départ d'un train  
+	 * 
+	 * @param p Position initiale
+	 * 
+	 * On parcours tout les elements
+	 * On ignore l'element actuel ainsi que les gares 
+	 * Et parmis ceux qui nous interesse on regarde si un train ne bloque pas le passage 
+	 * (ie : sur le chemin et dans le sens inverse)
+	 * 
+	 * @return Un boolean true si le risque existe et false sinon
+	 * 
+	 * @author BLEVIN Sarah
+	 * @author COURSODON Liam
+	 * 
+	 * Amelioration possible : Verifier qu'il reste de la place en gare 
+	 * et plus difficilement vérifier qu'il RESTERA de la place en gare si par exemple deja plusieur trains sont sur le railway
+	 */
 	public synchronized boolean stopInterblocage(Position p) throws InterruptedException{
-		/** Une méthode pour éviter les interblocages: au moment où un train quitte une gare,
-		 * on vérifie qu'il n'y a pas déjà un train qui voyage en sens inverse sur le railway
-		 * afin qu'ils ne se rencontrent pas au milieu.
-		 * cette méthode prend en argument la position actuelle du train
-		 */
-		for (Element e : elements) { //on parcourt les éléments du railway
-			if(!e.equals(p.getElt()) && !(e instanceof Station)) { //on ne s'intéresse pas à l'élément actuel de la position du train
+
+		for (Element e : elements) { 
+			if(!e.equals(p.getElt()) && !(e instanceof Station)) {
 				if(p.getDir().toString().equals("from left to right")) {
-					//System.out.println("Element : " + p + "a " + e.getCountRL() + "train allant de r a l" );
-					if(e.getCountRL() > 0) { //on ne veut pas de train déjà en train de voyager en sens inverse
-						//System.out.println("risque d'interblocage, le train ne part pas");
+					if(e.getCountRL() > 0) { 
 						return true;
 					}
 				}
 				if(p.getDir().toString().equals("from right to left")) {
-					//System.out.println("Element : " + p + "a " + e.getCountLR() + "train allant de l a r" );
 					if(e.getCountLR()>0) {
-						//System.out.println("risque d'interblocage, le train ne part pas");
 						return true;
 					}
 					
@@ -86,7 +115,7 @@ public class Railway {
 					
 				}
 			else {
-				//System.out.println("pas de risque d'interblocage, le train peut quitter la gare");
+				//
 			}
 			}
 		return false;

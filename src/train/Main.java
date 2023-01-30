@@ -4,6 +4,7 @@ package train;
  * @author Fabien Dagnat <fabien.dagnat@imt-atlantique.fr>
  */
 public class Main {
+	// Un petit test sur un system simple
 	public static void main(String[] args) {
 		Station A = new Station("GareA", 3);
 		Station D = new Station("GareD", 3);

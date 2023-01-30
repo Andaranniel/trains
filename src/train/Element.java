@@ -72,11 +72,23 @@ public abstract class Element {
 		
 	}
 	
-	public synchronized void enter(Position pos, Railway r, Train t) throws InterruptedException {
-		/** une méthode qui détermine si un train peut entrer dans l'élément **/
+	/*
+	 * Méthode synchronize qui determine si un train peut rentrer dans une position
+	 * 
+	 * @param pos : Position initiale du train 
+	 * @param r : Railway sur lequel le train se déplace
+	 * 
+	 * La méthode vérifie que le train puisse avancer
+	 * ie pas de risque d'interblocage et de la place dans l'element sur lequel il souhaite entrer
+	 * Si ce n'est pas le cas il attend
+	 * 
+	 * @author BLEVIN Sarah
+	 * @author COURSODON Liam
+	 *
+	 */
+	public synchronized void enter(Position pos, Railway r) throws InterruptedException {
 		Direction d = pos.getDir();
 		while(!((this.countTrainLR+this.countTrainRL) <this.getSize()) || r.stopInterblocage(pos)) {
-			//System.out.println("pas la place d'avancer");
 			wait() ;}
 			if(d.toString().equals("from left to right")) {
 				this.countTrainLR++;
@@ -86,8 +98,18 @@ public abstract class Element {
 			}
 	}
 	
+	/*
+	 * Méthode synchronize qui fait quitter une position a un train
+	 * 
+	 * @param d : Direction du train 
+	 * 
+	 * La méthode indique a l'élément (this) que le train est partie
+	 * 
+	 * @author BLEVIN Sarah
+	 * @author COURSODON Liam
+	 *
+	 */
 	public synchronized void leave(Direction d) {
-		/** une méthode pour mettre à jour le nombre de trains lorsqu'un train quitte l'élément **/
 		if(d.toString().equals("from left to right")) {
 			this.countTrainLR = this.countTrainLR -1;
 		}
